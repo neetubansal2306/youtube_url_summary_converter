@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- <script type="module" crossorigin src="/workspace/assets/index-6e9c3427.js"></script> -->
+    <title>YouTube URL to Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #282c34;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 1em;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 0.5em;
+        }
+
+        input {
+            width: calc(100% - 24px);
+            padding: 10px;
+            margin: 1em 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #summary {
+            margin-top: 1.5em;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2em;
+            color: #666;
+            font-size: 14px;
+        }
+        #btn{
+            margin-left: 270px;
+            text-decoration: none;
+        }
+        img{
+            height: 20px;
+            width: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>YouTube URL to Summary</h1>
+        <p>Enter a YouTube URL to get a summarized transcript</p>
+    </header>
+    <main>
+        <input type="text" id="youtubeUrl" placeholder="Paste YouTube URL here..." />
+        <button onclick="getSummary()">Generate Summary</button>
+        <div id="summary"></div>
+    </main>
+    <button id="btn" className="btn"><a href="/">Download</a></button>
+    <!-- <button class="btn">copy</button>
+      -->
+    <img class="img"src="image1.png" alt="">
+    <img class="img"src="image.png" alt="">
+    <footer>
+        <p>Powered by AI and YouTube API</p>
+    </footer>
+
+    <!-- <script>
+        async function getSummary() {
+            const youtubeUrl = document.getElementById("youtubeUrl").value;
+            const summaryDiv = document.getElementById("summary");
+
+            // Clear previous results
+            summaryDiv.innerHTML = "";
+
+            // Validate YouTube URL
+            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+            if (!youtubeRegex.test(youtubeUrl)) {
+                summaryDiv.innerHTML = "<p style='color: red;'>Please enter a valid YouTube URL.</p>";
+                return;
+            }
+
+            // Extract Video ID from URL
+            const videoIdMatch = youtubeUrl.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+            const videoId = videoIdMatch ? videoIdMatch[1] : null;
+            if (!videoId) {
+                summaryDiv.innerHTML = "<p style='color: red;'>Unable to extract video ID from the URL.</p>";
+                return;
+            }
+
+            // Display placeholder while processing
+            summaryDiv.innerHTML = "<p>Fetching transcript and generating summary...</p>";
+
+            try {
+                // Replace the URLs below with the actual APIs for fetching transcript and summarization
+                const transcriptResponse = await fetch(`https://api.example.com/getTranscript?videoId=${videoId}`);
+                const transcriptData = await transcriptResponse.json();
+
+                if (!transcriptData || !transcriptData.transcript) {
+                    summaryDiv.innerHTML = "<p style='color: red;'>Failed to fetch the transcript. Please try again later.</p>";
+                    return;
+                }
+
+                const transcript = transcriptData.transcript;
+
+                // Summarize transcript
+                const summaryResponse = await fetch('https://api.example.com/summarize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: transcript })
+                });
+                const summaryData = await summaryResponse.json();
+
+                if (!summaryData || !summaryData.summary) {
+                    summaryDiv.innerHTML = "<p style='color: red;'>Failed to generate the summary. Please try again later.</p>";
+                    return;
+                }
+
+                // Display summary
+                summaryDiv.innerHTML = `
+                    <h2>Summary:</h2>
+                    <p>${summaryData.summary}</p>
+                `;
+            } catch (error) {
+                console.error(error);
+                summaryDiv.innerHTML = "<p style='color: red;'>An error occurred while fetching the summary. Please try again later.</p>";
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        window.$crisp = [];
+        window.CRISP_WEBSITE_ID = "02aa9b53-fc37-4ca7-954d-7a99fb3393de";
+        (function() {
+            const d = document;
+            const s = d.createElement("script");
+            s.src = "https://client.crisp.chat/script.js";
+            s.async = 1;
+            s.onload = () => { window.$crisp.push(["do", "chat:hide"]); };
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();
+    </script> -->
+
+    <script>
+        async function getSummary() {
+    const youtubeUrl = document.getElementById("youtubeUrl").value;
+    const summaryDiv = document.getElementById("summary");
+
+    // Clear previous results
+    summaryDiv.innerHTML = "";
+
+    // Validate YouTube URL
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+    if (!youtubeRegex.test(youtubeUrl)) {
+        summaryDiv.innerHTML = "<p style='color: red;'>Please enter a valid YouTube URL.</p>";
+        return;
+    }
+
+    // Display placeholder while processing
+    summaryDiv.innerHTML = "<p>Fetching transcript and generating summary...</p>";
+
+    // Example Placeholder (Replace with actual API integration)
+    setTimeout(() => {
+        summaryDiv.innerHTML = `
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad harum animi esse? Deleniti dignissimos voluptatum ipsa eos ab asperiores fuga consequuntur, aliquid veniam quidem ipsam explicabo vero voluptas error est.
+            // <h2>Summary:</h2>
+            // <p>This is a placeholder summary. Integrate YouTube API to fetch transcripts and summarize them.</p>
+        `;
+    }, 3000);
+}
+async function getSummary() {
+    const youtubeUrl = document.getElementById("youtubeUrl").value;
+    const summaryDiv = document.getElementById("summary");
+
+    // Clear previous results
+    summaryDiv.innerHTML = "";
+
+    // Validate YouTube URL
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+    if (!youtubeRegex.test(youtubeUrl)) {
+        summaryDiv.innerHTML = "<p style='color: red;'>Please enter a valid YouTube URL.</p>";
+        return;
+    }
+
+    // Display placeholder while processing
+    summaryDiv.innerHTML = "<p>Fetching transcript and generating summary...</p>";
+}
+
+    // Example Placeholder (Replace with actual API integration)
+//     setTimeout(() => {
+//         summaryDiv.innerHTML = `
+//             <h2>Summary:</h2>
+//             <p>This is a placeholder summary. Integrate YouTube API to fetch transcripts and summarize them.</p>
+//         `;
+//     }, 3000);
+// }
+
+// <script>
+//   window.dataLayer = window.dataLayer || [];
+//   function gtag() { dataLayer.push(arguments); }
+//   gtag('js', new Date());
+//   gtag('config', 'G-PFX3BRW5RQ');
+// </script>
+// </script>
+    <script type="text/javascript">
+      window.$crisp = [];
+      window.CRISP_WEBSITE_ID = "02aa9b53-fc37-4ca7-954d-7a99fb3393de";
+      (function() {
+          d = document;
+          s = d.createElement("script");
+          s.src = "https://client.crisp.chat/l.js";
+          s.async = 1;
+          s.onload = () => { window.$crisp.push(["do", "chat:hide"]); }
+          d.getElementsByTagName("head")[0].appendChild(s);
+      })();
+  </script>
+</body>
+</html>
